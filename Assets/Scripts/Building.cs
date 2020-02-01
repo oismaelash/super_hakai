@@ -2,22 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class Building : MonoBehaviour
 {
     
     private float life = 100f;
     private int clicks = 0;
     private Vector2 position;
-    
     // Start is called before the first frame update
     void Start()
-    {
-        
-
-    }
-
-    // Update is called once per frame
-    void Update()
     {
 
     }
