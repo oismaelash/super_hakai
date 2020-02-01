@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class Building : MonoBehaviour
 {
 
@@ -14,6 +15,7 @@ public class Building : MonoBehaviour
 	private Vector2 position;
 	private float repair = 12.5f;
 	private float damage = 8f;
+	private AudioSource som;
 	private SpriteRenderer sp;
 	private Slider bar;
 	public Sprite[] states;
@@ -24,6 +26,7 @@ public class Building : MonoBehaviour
 	{
 		bar = GetComponentInChildren<Slider>();
 		sp  = GetComponentInChildren<SpriteRenderer>();
+		som = GetComponentInChildren<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -59,12 +62,15 @@ public class Building : MonoBehaviour
             if (life < 100f)
             {
 				life = Mathf.Min(life + repair, maxLife);
-				if (clicks < 2)
+				som.Play();
+				if (clicks < 2 && (clicks == 0 || GameManager.instance.lastClicked == this))
 				{
 					GameManager.instance.lastClicked = this;
 					clicks++;
-				}
-				else
+				}	else if (GameManager.instance.lastClicked != this)
+				{
+					clicks = 0;
+				}	else
 				{
 					GameManager.instance.spawnCoin(this.gameObject);
 					clicks = 0;
