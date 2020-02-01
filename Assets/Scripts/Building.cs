@@ -12,8 +12,8 @@ public class Building : MonoBehaviour
 	private float life = 100f;
     private int clicks = 0;
 	private Vector2 position;
-	private float repair = 12.5f;
-	private float damage = 8f;
+	public float repair = 12.5f;
+	public float damage = 8f;
 	private SpriteRenderer sp;
 	private Slider bar;
 	public Sprite[] states;

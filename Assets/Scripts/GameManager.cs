@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	private Building[] buildings;
+	public Building[] buildings;
 	public Building lastClicked;
 	private Vector3 position;
 	static public GameManager instance;

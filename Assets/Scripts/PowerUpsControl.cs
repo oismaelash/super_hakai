@@ -6,10 +6,9 @@ public class PowerUpsControl : MonoBehaviour
 {
     public bool _canClicker = false;
     public bool _canShield = false;
-    public bool _canHelpOfStars = false;
     public bool _canFreeze = false;
+    public bool _canMakeTheKO = false;
     public bool _canDontGiveUp = false;
-    public bool _canChristimas = false;
     public bool _canZordTime = false;
 
     // Start is called before the first frame update
@@ -25,24 +24,34 @@ public class PowerUpsControl : MonoBehaviour
     }
 
     public void ClickerPowerupOn() {
+        _canClicker = true;
         
-
-        if (_canClicker == true)
-        {
-
-        }
+        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
+                GameManager.instance.buildings[i].repair = GameManager.instance.buildings[i].repair * 1.5f;
+        
 
     }
 
-    public void ShieldPowerupOn() { }
+    public void ShieldPowerupOn() {
+        _canShield = true;
+        
+        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
+                GameManager.instance.buildings[i].damage = 5f;
+        
+    }
 
-    public void HelpOfStarsPowerupOn() { }
+    
 
-    public void FreezePowerupOn() { }
+    public void FreezePowerupOn() {
+        _canFreeze = true;
+
+
+
+    }
+
+    public void MakeTheKOPowerupOn() { }
 
     public void DontGiveUpPowerupOn() { }
-
-    public void ChristimasPowerupOn() { }
 
     public void ZordTimePowerupOn() { }
 }
