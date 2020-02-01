@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Coin : MonoBehaviour
 {
     
 
     private int value = 1;
+	private bool flying = false;
     
     
     // Start is called before the first frame update
@@ -18,8 +23,8 @@ public class Coin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
+		if (flying)
+			transform.position += Vector3.up * Time.deltaTime;
     }
 
     private void AddMoney()
@@ -30,7 +35,7 @@ public class Coin : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetInt("coin", 1);
+			PlayerPrefs.SetInt("coin", value);
         }
     }
 
@@ -39,8 +44,18 @@ public class Coin : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             AddMoney();
-            Debug.Log(PlayerPrefs.GetInt("coin"));
-            Destroy(this.gameObject);
+			TextMeshPro text = GetComponentInChildren<TextMeshPro>();
+			GetComponent<SpriteRenderer>().color = Color.clear;
+			text.text = "+" + value;
+			text.gameObject.SetActive(true);
+            //Debug.Log(PlayerPrefs.GetInt("coin"));
+			StartCoroutine(Destroy());
         }
     }
+
+	IEnumerator Destroy(){
+		flying = true;
+		yield return new WaitForSeconds(1);
+		Destroy(this.gameObject);
+	}
 }

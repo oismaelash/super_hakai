@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Building : MonoBehaviour
 {
     
@@ -23,22 +24,21 @@ public class Building : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        Debug.Log(this.gameObject.name + " " + life);  
-        
+        Debug.Log(this.gameObject.name + " " + life);
+
     }
 
     private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            CoinSpawn coinSpawn = GameObject.Find("Main Camera").GetComponent<CoinSpawn>();
             if (clicks < 2)
             {
                 clicks++;
             }
             else
             {
-                coinSpawn.Spawn();
+				CoinSpawn.instance.Spawn(this.gameObject);
                 clicks = 0;
             }
 

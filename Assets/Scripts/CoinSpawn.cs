@@ -5,27 +5,19 @@ using UnityEngine;
 public class CoinSpawn : MonoBehaviour
 {
 
-    private Vector2 position;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private Vector3 position;
+	static public CoinSpawn instance;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(2)) {
-            Spawn();
-        }
-    }
+	void Awake(){
+		instance = this;
+	}
 
-    public void Spawn()
+    public void Spawn(GameObject building)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
-            position = Camera.main.ScreenToWorldPoint(new Vector2(Random.Range(0, Screen.width), Random.Range(0, Screen.height)));
+			Vector2 buildingSize = building.GetComponent<SpriteRenderer>().bounds.size;
+			position = new Vector3(Random.Range(-buildingSize.x/2, buildingSize.x/2), Random.Range(-buildingSize.y/2, buildingSize.y/2), -1) + building.transform.position;
             Instantiate(Resources.Load("Coin") as GameObject, position, Quaternion.identity);
         }
     }
