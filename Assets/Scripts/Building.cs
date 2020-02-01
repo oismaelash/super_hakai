@@ -12,8 +12,8 @@ public class Building : MonoBehaviour
 	private float life = 100f;
     private int clicks = 0;
 	private Vector2 position;
-	private const float repair = 12.5f; 
-	private const float damage = 8f;
+	private float repair = 12.5f;
+	private float damage = 8f;
 	private SpriteRenderer sp;
 	private Slider bar;
 	public Sprite[] states;
@@ -39,13 +39,13 @@ public class Building : MonoBehaviour
 		}
 	}
 
-    public void Hakai()
+    public void hakai()
     {
         
 		life -= damage;
         if (life <= 0f)
         {
-            Destroy(this.gameObject);
+			gameObject.SetActive(false);
         }
         Debug.Log(this.gameObject.name + " " + life);
 
@@ -61,11 +61,12 @@ public class Building : MonoBehaviour
 				life = Mathf.Min(life + repair, maxLife);
 				if (clicks < 2)
 				{
+					GameManager.instance.lastClicked = this;
 					clicks++;
 				}
 				else
 				{
-					CoinSpawn.instance.Spawn(this.gameObject);
+					GameManager.instance.spawnCoin(this.gameObject);
 					clicks = 0;
 				}
             }
