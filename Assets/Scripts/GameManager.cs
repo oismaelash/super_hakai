@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 	public Building lastClicked;
 	private Vector3 position;
 	static public GameManager instance;
+	private Coroutine timer;
+	public GameObject Kaiju;
+	public GameObject Robot;
 
 	void Awake(){
 		instance = this;
@@ -17,8 +20,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 		buildings = FindObjectsOfType<Building>();
-		StartCoroutine(HakaiBuildingChoice());
+		timer = StartCoroutine(HakaiBuildingChoice());
 	}
+
+
 
 	public void spawnCoin(GameObject building)
 	{
@@ -32,10 +37,9 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator HakaiBuildingChoice()
 	{
-		Debug.Log("Hakai");
 		int buildingNumber = Random.Range( 0, buildings.Length);
 		buildings[buildingNumber].hakai();
 		yield return new WaitForSeconds(1);
-		StartCoroutine(HakaiBuildingChoice());
+		timer = StartCoroutine(HakaiBuildingChoice());
     }
 }
