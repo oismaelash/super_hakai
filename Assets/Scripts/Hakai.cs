@@ -4,43 +4,27 @@ using UnityEngine;
 
 public class Hakai : MonoBehaviour
 {
-    private string buildingNumber;
-    private float timer = 1f;
+	private Building[] buildings;
+	static public Hakai instance;
+
+	void Awake(){
+		instance = this;
+	}
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+		buildings = FindObjectsOfType<Building>();
+		StartCoroutine(HakaiBuildingChoice());
     }
 
-    
-
-    void FixedUpdate()
-    {
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
-        {
-            HakaiBuildingChoice();
-            timer = 1f;
-        }
-    }
-
-
-
-    private void HakaiBuildingChoice()
-    {
-        buildingNumber = Random.Range( 1, 4).ToString();
-        
-        if (GameObject.Find("Building" + buildingNumber) == null)
-        {
-            HakaiBuildingChoice();
-        }
-        else
-        {
-            Building building = GameObject.Find("Building" + buildingNumber).GetComponent<Building>();
-            building.Hakai();
-        }
-        
+	private IEnumerator HakaiBuildingChoice()
+	{
+		Debug.Log("Hakai");
+		int buildingNumber = Random.Range( 0, buildings.Length);
+		buildings[buildingNumber].Hakai();
+		yield return new WaitForSeconds(1);
+		StartCoroutine(HakaiBuildingChoice());
     }
 }

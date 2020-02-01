@@ -17,7 +17,7 @@ public class Coin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+		StartCoroutine(Destroy(1.5f));
     }
 
     // Update is called once per frame
@@ -48,14 +48,13 @@ public class Coin : MonoBehaviour
 			GetComponent<SpriteRenderer>().color = Color.clear;
 			text.text = "+" + value;
 			text.gameObject.SetActive(true);
-            //Debug.Log(PlayerPrefs.GetInt("coin"));
-			StartCoroutine(Destroy());
+			flying = true;
+			StartCoroutine(Destroy(0.5f));
         }
     }
 
-	IEnumerator Destroy(){
-		flying = true;
-		yield return new WaitForSeconds(1);
+	IEnumerator Destroy(float time){
+		yield return new WaitForSeconds(time);
 		Destroy(this.gameObject);
 	}
 }
