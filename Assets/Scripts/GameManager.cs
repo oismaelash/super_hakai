@@ -93,10 +93,14 @@ public class GameManager : MonoBehaviour
 
     public void FreezePowerupOn()
     {
-        _canFreeze = false;
-        animate = false;
-        this.StopAllCoroutines();
-        StartCoroutine(FreezePowerDownRoutime());
+        if (_canFreeze == true)
+        {
+            _canFreeze = false;
+            animate = false;
+            this.StopAllCoroutines();
+            StartCoroutine(FreezePowerDownRoutime());
+        }
+        
     }
 
     public IEnumerator FreezePowerDownRoutime()
@@ -119,8 +123,12 @@ public class GameManager : MonoBehaviour
 
     public void ZordTimePowerupOn()
     {
-        _canZordTime = false;
-        repairBonusActive = true;
+        if (_canZordTime == true)
+        {
+            _canZordTime = false;
+            repairBonusActive = true;
+        }
+       
     }
 
     public float getRepair() {
