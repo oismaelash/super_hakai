@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class Building : MonoBehaviour
 {
 
-	private float maxLife = 100f;
-	private float life = 100f;
+	public float maxLife = 100f;
+	public float life = 100f;
     private int clicks = 0;
 	private Vector2 position;
 	private AudioSource som;

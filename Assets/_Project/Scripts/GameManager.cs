@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TGDStudio.PlayGameServices;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject Wave1FinishDialogue;
 
     public GameObject Wave3FinishDialogue;
+
 
     public bool _canClicker = false;
     public bool _canShield = false;
@@ -75,10 +77,16 @@ public class GameManager : MonoBehaviour
 			countdown -= Time.deltaTime;
 
 		if (countdown <= 0){
-			StopAllCoroutines();
+			//StopAllCoroutines();
             setWave();
+		}
 
-            
+		bool test = true;
+		foreach (var building in buildings){
+			test = test & building.life < 1;
+		}
+		if (test){
+			SceneManager.LoadScene(0);
 		}
 	}
 
@@ -182,6 +190,9 @@ public class GameManager : MonoBehaviour
     }
 
 	public void setWave(){
+		foreach (var building in buildings){
+			building.life = building.maxLife;
+		}
 		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave") + 1);
 		LeaderboardController.Instance.SetAmountWaves(PlayerPrefs.GetInt("wave"));
 		shop0.onClick.RemoveAllListeners ();
@@ -189,8 +200,8 @@ public class GameManager : MonoBehaviour
 		shop2.onClick.RemoveAllListeners ();
 		switch(PlayerPrefs.GetInt("wave")){
 		case 2:
-                dialog.SetActive(true);
-                Wave1FinishDialogue.gameObject.SetActive(true);
+            dialog.SetActive(true);
+            Wave1FinishDialogue.gameObject.SetActive(true);
 			shop0.onClick.AddListener (() => PowerUpsShop.buy (0));
 			shop1.onClick.AddListener (() => PowerUpsShop.buy (1));
 			shop2.onClick.AddListener (() => PowerUpsShop.buy (4));
@@ -203,9 +214,9 @@ public class GameManager : MonoBehaviour
 			countdown = 56;
 			break;
 		case 4:
-                dialog.SetActive(true);
-                Wave3FinishDialogue.gameObject.SetActive(true);
-                shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
+            dialog.SetActive(true);
+            Wave3FinishDialogue.gameObject.SetActive(true);
+            shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
 			shop1.onClick.AddListener (() => PowerUpsShop.buy (5));
 			shop2.onClick.AddListener (() => PowerUpsShop.buy (0));
 			countdown = 68;
