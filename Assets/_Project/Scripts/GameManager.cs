@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("wave", 1);
+        PlayerPrefs.SetInt("coin", 1);
+
         buildings = FindObjectsOfType<Building>();
 		timer = StartCoroutine(HakaiBuildingChoice());
 		kaijuPos = kaiju.position;
@@ -70,7 +73,9 @@ public class GameManager : MonoBehaviour
 
 		if (countdown <= 0){
 			StopAllCoroutines();
-			dialog.SetActive(true);
+            setWave();
+
+            dialog.SetActive(true);
 		}
 	}
 
@@ -181,6 +186,7 @@ public class GameManager : MonoBehaviour
 		shop2.onClick.RemoveAllListeners ();
 		switch(PlayerPrefs.GetInt("wave")){
 		case 2:
+            GameObject.Find("Wave1FinishDialogue").gameObject.SetActive(true);
 			shop0.onClick.AddListener (() => PowerUpsShop.buy (0));
 			shop1.onClick.AddListener (() => PowerUpsShop.buy (1));
 			shop2.onClick.AddListener (() => PowerUpsShop.buy (4));
