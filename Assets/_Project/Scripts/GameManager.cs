@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         PlayerPrefs.SetInt("wave", 1);
-        PlayerPrefs.SetInt("coin", 1);
+        PlayerPrefs.SetInt("coin", 0);
 
         buildings = FindObjectsOfType<Building>();
 		timer = StartCoroutine(HakaiBuildingChoice());
@@ -76,6 +76,12 @@ public class GameManager : MonoBehaviour
 
 		if (countdown <= 0){
 			StopAllCoroutines();
+            _canClicker = false;
+            _canShield = false;
+            _canFreeze = false;
+            _canMakeTheKO = false;
+            _canDontGiveUp = false;
+            _canZordTime = false;
             setWave();
 
             
@@ -140,7 +146,7 @@ public class GameManager : MonoBehaviour
         if (_canMakeTheKO == true)
         {
             _canMakeTheKO = false;
-            countdown = 0;
+            countdown = 1;
         }
     }
 

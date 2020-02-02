@@ -10,7 +10,7 @@ public class PowerUpsShop : MonoBehaviour
 
     static public void buy(int powerupID)
     {
-        if (PlayerPrefs.GetInt("coin") > cost[powerupID])
+        if (PlayerPrefs.GetInt("coin") < cost[powerupID])
         {
 
         }
@@ -19,6 +19,7 @@ public class PowerUpsShop : MonoBehaviour
             if (powerupID == 0)
             {
                 GameManager.instance._canClicker = true;
+                
             }
             else if (powerupID == 1)
             {
