@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
 	public Button shop0;
 	public Button shop1;
 	public Button shop2;
+    public GameObject Wave1FinishDialogue;
+
+    public GameObject Wave3FinishDialogue;
 
     public bool _canClicker = false;
     public bool _canShield = false;
@@ -75,7 +78,7 @@ public class GameManager : MonoBehaviour
 			StopAllCoroutines();
             setWave();
 
-            dialog.SetActive(true);
+            
 		}
 	}
 
@@ -179,14 +182,15 @@ public class GameManager : MonoBehaviour
     }
 
 	public void setWave(){
-		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave", 0) + 1);
+		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave") + 1);
 		LeaderboardController.Instance.SetAmountWaves(PlayerPrefs.GetInt("wave"));
 		shop0.onClick.RemoveAllListeners ();
 		shop1.onClick.RemoveAllListeners ();
 		shop2.onClick.RemoveAllListeners ();
 		switch(PlayerPrefs.GetInt("wave")){
 		case 2:
-            GameObject.Find("Wave1FinishDialogue").gameObject.SetActive(true);
+                dialog.SetActive(true);
+                Wave1FinishDialogue.gameObject.SetActive(true);
 			shop0.onClick.AddListener (() => PowerUpsShop.buy (0));
 			shop1.onClick.AddListener (() => PowerUpsShop.buy (1));
 			shop2.onClick.AddListener (() => PowerUpsShop.buy (4));
@@ -199,7 +203,9 @@ public class GameManager : MonoBehaviour
 			countdown = 56;
 			break;
 		case 4:
-			shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
+                dialog.SetActive(true);
+                Wave3FinishDialogue.gameObject.SetActive(true);
+                shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
 			shop1.onClick.AddListener (() => PowerUpsShop.buy (5));
 			shop2.onClick.AddListener (() => PowerUpsShop.buy (0));
 			countdown = 68;
