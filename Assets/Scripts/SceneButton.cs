@@ -10,6 +10,8 @@ public class SceneButton : MonoBehaviour
 
 	void Start ()
 	{
+		if(this.GetComponent<Button> ())
+			button = this.GetComponent<Button> ();
 		button.onClick = new Button.ButtonClickedEvent ();
 		button.onClick.AddListener (() => Go ());
 	}
