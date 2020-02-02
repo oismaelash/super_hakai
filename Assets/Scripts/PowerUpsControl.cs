@@ -26,8 +26,8 @@ public class PowerUpsControl : MonoBehaviour
     public void ClickerPowerupOn() {
         _canClicker = true;
         
-        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
-                GameManager.instance.buildings[i].repair = GameManager.instance.buildings[i].repair * 1.5f;
+        //for (int i = 0; i < GameManager.instance.buildings.Length; i++)
+                //GameManager.instance.buildings[i].repair = GameManager.instance.buildings[i].repair * 1.5f;
         
 
     }
@@ -35,8 +35,8 @@ public class PowerUpsControl : MonoBehaviour
     public void ShieldPowerupOn() {
         _canShield = true;
         
-        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
-                GameManager.instance.buildings[i].damage = 5f;
+        //for (int i = 0; i < GameManager.instance.buildings.Length; i++)
+                //GameManager.instance.buildings[i].damage = 5f;
         
     }
 
@@ -49,9 +49,15 @@ public class PowerUpsControl : MonoBehaviour
 
     }
 
-    public void MakeTheKOPowerupOn() { }
+    public void MakeTheKOPowerupOn() {
+        _canMakeTheKO = true;
+    }
 
-    public void DontGiveUpPowerupOn() { }
+    public void DontGiveUpPowerupOn() {
+        _canDontGiveUp = true;
+    }
 
-    public void ZordTimePowerupOn() { }
+    public void ZordTimePowerupOn() {
+        _canZordTime = true;
+    }
 }
