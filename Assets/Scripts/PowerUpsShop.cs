@@ -4,24 +4,11 @@ using UnityEngine;
 
 public class PowerUpsShop : MonoBehaviour
 {
-    [SerializeField]
-    private int powerupID;
+   
     private int[] cost = { 15, 18, 20, 30, 20, 28 };
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void buy()
+    public void buy(int powerupID)
     {
         if (PlayerPrefs.GetInt("coin") > cost[powerupID])
         {
@@ -32,27 +19,27 @@ public class PowerUpsShop : MonoBehaviour
             if (powerupID == 0)
             {
 
-                puc._canClicker = true;
+                GameManager.instance._canClicker = true;
             }
             else if (powerupID == 1)
             {
-                puc._canShield = true;
+                GameManager.instance._canShield = true;
             }
             else if (powerupID == 2)
             {
-                puc._canFreeze = true;
+                GameManager.instance._canFreeze = true;
             }
             else if (powerupID == 3)
             {
-                puc._canMakeTheKO = true;
+                GameManager.instance._canMakeTheKO = true;
             }
             else if (powerupID == 4)
             {
-                puc._canDontGiveUp = true;
+                GameManager.instance._canDontGiveUp = true;
             }
             else if (powerupID == 5)
             {
-                puc._canZordTime = true;
+                GameManager.instance._canZordTime = true;
             }
 
             PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - cost[powerupID]);

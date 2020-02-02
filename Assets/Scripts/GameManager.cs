@@ -15,6 +15,13 @@ public class GameManager : MonoBehaviour
 	private Vector3 robotPos;
 	private float count = 0;
     private bool animate = true;
+    private const float repair = 12.5f;
+    private const float damage = 8f;
+    private const float bonusRepair = 100;
+    private const float bonusDamage = 5f;
+    private bool repairBonusActive = false;
+    private bool damageBonusActive = false;
+    private bool ClickerPowerOn = false;
 
     public bool _canClicker = false;
     public bool _canShield = false;
@@ -71,20 +78,14 @@ public class GameManager : MonoBehaviour
 
     public void ClickerPowerupOn()
     {
-
-
-        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
-            GameManager.instance.buildings[i].repair = GameManager.instance.buildings[i].repair * 1.5f;
-
-
+        _canClicker = false;
+        ClickerPowerOn = true;
     }
 
     public void ShieldPowerupOn()
     {
-
-
-        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
-            GameManager.instance.buildings[i].damage = 5f;
+        _canShield = false;
+        damageBonusActive = true;
 
     }
 
@@ -118,6 +119,19 @@ public class GameManager : MonoBehaviour
 
     public void ZordTimePowerupOn()
     {
+        _canZordTime = false;
+        repairBonusActive = true;
+    }
+
+    public float getRepair() {
+        float r = repairBonusActive ? bonusRepair : repair;
+        r *= ClickerPowerOn ? 1.5f : 1; 
+        repairBonusActive = false;
+        return r;
+    }
+    public float getDamage() {
+        float r = damageBonusActive ? bonusDamage : damage;
+        return r;
 
     }
 }

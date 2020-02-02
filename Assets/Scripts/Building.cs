@@ -13,8 +13,6 @@ public class Building : MonoBehaviour
 	private float life = 100f;
     private int clicks = 0;
 	private Vector2 position;
-    public float repair = 12.5f;
-    public float damage = 8f;
 	private AudioSource som;
 	private SpriteRenderer sp;
 	private Slider bar;
@@ -45,7 +43,7 @@ public class Building : MonoBehaviour
     public void hakai()
     {
         
-		life -= damage;
+		life -= GameManager.instance.getDamage();
         if (life <= 0f)
         {
 			gameObject.SetActive(false);
@@ -59,7 +57,7 @@ public class Building : MonoBehaviour
 
             if (life < 100f)
             {
-				life = Mathf.Min(life + repair, maxLife);
+				life = Mathf.Min(life + GameManager.instance.getRepair(), maxLife);
 				som.Play();
 				if (clicks < 2 && (clicks == 0 || GameManager.instance.lastClicked == this))
 				{
