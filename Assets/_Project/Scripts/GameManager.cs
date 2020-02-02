@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
 	public Button shop0;
 	public Button shop1;
 	public Button shop2;
+    public GameObject Wave1FinishDialogue;
+
+    public GameObject Wave3FinishDialogue;
 
     public bool _canClicker = false;
     public bool _canShield = false;
@@ -46,6 +49,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("wave", 1);
+        PlayerPrefs.SetInt("coin", 1);
+
         buildings = FindObjectsOfType<Building>();
 		timer = StartCoroutine(HakaiBuildingChoice());
 		kaijuPos = kaiju.position;
@@ -70,7 +76,9 @@ public class GameManager : MonoBehaviour
 
 		if (countdown <= 0){
 			StopAllCoroutines();
-			dialog.SetActive(true);
+            setWave();
+
+            
 		}
 	}
 
@@ -174,13 +182,15 @@ public class GameManager : MonoBehaviour
     }
 
 	public void setWave(){
-		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave", 0) + 1);
+		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave") + 1);
 		LeaderboardController.Instance.SetAmountWaves(PlayerPrefs.GetInt("wave"));
 		shop0.onClick.RemoveAllListeners ();
 		shop1.onClick.RemoveAllListeners ();
 		shop2.onClick.RemoveAllListeners ();
 		switch(PlayerPrefs.GetInt("wave")){
 		case 2:
+                dialog.SetActive(true);
+                Wave1FinishDialogue.gameObject.SetActive(true);
 			shop0.onClick.AddListener (() => PowerUpsShop.buy (0));
 			shop1.onClick.AddListener (() => PowerUpsShop.buy (1));
 			shop2.onClick.AddListener (() => PowerUpsShop.buy (4));
@@ -193,7 +203,9 @@ public class GameManager : MonoBehaviour
 			countdown = 56;
 			break;
 		case 4:
-			shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
+                dialog.SetActive(true);
+                Wave3FinishDialogue.gameObject.SetActive(true);
+                shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
 			shop1.onClick.AddListener (() => PowerUpsShop.buy (5));
 			shop2.onClick.AddListener (() => PowerUpsShop.buy (0));
 			countdown = 68;
