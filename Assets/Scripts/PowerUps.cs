@@ -4,39 +4,23 @@ using UnityEngine;
 
 public class PowerUps : MonoBehaviour
 {
-    [SerializeField]
-    private int powerupID;
-
-    // Start is called before the first frame update
-    void Start()
+    public void activate(int powerupID)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(0))
+        if (powerupID == 0)
         {
-            PowerUpsControl puc = GameObject.Find("Camera").GetComponent<PowerUpsControl>();
-
-            if (powerupID == 0)
-            {
-                puc.FreezePowerupOn();
-            }
-            else if (powerupID == 1)
-            {
-                puc.MakeTheKOPowerupOn();
-            }
-            else if (powerupID == 2)
-            {
-                puc.ZordTimePowerupOn();
-            }
+            GameManager.instance.FreezePowerupOn();
+        }
+        else if (powerupID == 1)
+        {
+            GameManager.instance.MakeTheKOPowerupOn();
+        }
+        else if (powerupID == 2)
+        {
+            GameManager.instance.DontGiveUpPowerupOn();
+        }
+        else if (powerupID == 3)
+        {
+            GameManager.instance.ZordTimePowerupOn();
         }
     }
 }

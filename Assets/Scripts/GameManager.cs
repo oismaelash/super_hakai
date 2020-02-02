@@ -14,8 +14,16 @@ public class GameManager : MonoBehaviour
 	private Vector3 kaijuPos;
 	private Vector3 robotPos;
 	private float count = 0;
+    private bool animate = true;
 
-	void Awake(){
+    public bool _canClicker = false;
+    public bool _canShield = false;
+    public bool _canFreeze = false;
+    public bool _canMakeTheKO = false;
+    public bool _canDontGiveUp = false;
+    public bool _canZordTime = false;
+
+    void Awake(){
 		instance = this;
 	}
 		
@@ -29,14 +37,18 @@ public class GameManager : MonoBehaviour
 	}
 
 	void Update(){
-		count += Time.deltaTime*8;
-		if(count > Mathf.PI*2) count -= Mathf.PI*2;
-		kaiju.position = kaijuPos + 
-			Vector3.right *	-Mathf.Cos(count)/2 +
-			Vector3.up * Mathf.Abs(Mathf.Sin(count))/2;
-		robot.position = robotPos +
-			Vector3.right *	Mathf.Cos(count)/2 +
-			Vector3.up * Mathf.Abs(Mathf.Sin(count))/2;
+        if (animate)
+        {
+            count += Time.deltaTime * 8;
+            if (count > Mathf.PI * 2) count -= Mathf.PI * 2;
+            kaiju.position = kaijuPos +
+                Vector3.right * -Mathf.Cos(count) / 2 +
+                Vector3.up * Mathf.Abs(Mathf.Sin(count)) / 2;
+            robot.position = robotPos +
+                Vector3.right * Mathf.Cos(count) / 2 +
+                Vector3.up * Mathf.Abs(Mathf.Sin(count)) / 2;
+        }
+		
 	}
 
 	public void spawnCoin(GameObject building)
@@ -55,5 +67,57 @@ public class GameManager : MonoBehaviour
 		buildings[buildingNumber].hakai();
 		yield return new WaitForSeconds(1);
 		timer = StartCoroutine(HakaiBuildingChoice());
+    }
+
+    public void ClickerPowerupOn()
+    {
+
+
+        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
+            GameManager.instance.buildings[i].repair = GameManager.instance.buildings[i].repair * 1.5f;
+
+
+    }
+
+    public void ShieldPowerupOn()
+    {
+
+
+        for (int i = 0; i < GameManager.instance.buildings.Length; i++)
+            GameManager.instance.buildings[i].damage = 5f;
+
+    }
+
+
+
+    public void FreezePowerupOn()
+    {
+        _canFreeze = false;
+        animate = false;
+        this.StopAllCoroutines();
+        StartCoroutine(FreezePowerDownRoutime());
+    }
+
+    public IEnumerator FreezePowerDownRoutime()
+    {
+        
+        yield return new WaitForSeconds(4f);
+        timer = StartCoroutine(HakaiBuildingChoice());
+        animate = true;
+    }
+
+    public void MakeTheKOPowerupOn()
+    {
+
+    }
+
+    public void DontGiveUpPowerupOn()
+    {
+
+    }
+
+    public void ZordTimePowerupOn()
+    {
+
     }
 }
