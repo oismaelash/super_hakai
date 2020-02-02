@@ -31,11 +31,15 @@ public class Building : MonoBehaviour
 	void Update()
 	{
 		bar.value = life/maxLife;
-		if(life < 30){
+		if (life < 1) {
+			sp.sprite = states[4];
+		} else if (life < 30) {
+			sp.sprite = states[3];
+		} else if (life < 60) {
 			sp.sprite = states[2];
-		}else if (life < 60){
+		} else if (life < 99) {
 			sp.sprite = states[1];
-		}else{
+		} else{
 			sp.sprite = states[0];
 		}
 	}
