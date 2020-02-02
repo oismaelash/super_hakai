@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d46921e71e9f04ccb83ec685be24573c, type: 3}
-  m_Name: Tomoe Renger
+  m_Name: T-REX
   m_EditorClassIdentifier: 
-  dialoger: Tomoe Renger
-  photo: {fileID: 21300000, guid: ba1584f6988aa2749946e5601cb41a65, type: 3}
+  dialoger: T-REX
+  photo: {fileID: 21300000, guid: 70128c41f1d5736468c8d96499a3e1a0, type: 3}
   expressions: []

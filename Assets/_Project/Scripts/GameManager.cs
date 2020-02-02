@@ -42,7 +42,8 @@ public class GameManager : MonoBehaviour
     public bool _canFreeze = false;
     public bool _canMakeTheKO = false;
     public bool _canDontGiveUp = false;
-    public bool _canZordTime = false;
+	public bool _canZordTime = false;
+	public Button[] buttons;
 
     void Awake(){
 		instance = this;
@@ -78,7 +79,6 @@ public class GameManager : MonoBehaviour
 
 		if (countdown <= 0){
 			//StopAllCoroutines();
-			StopAllCoroutines();
             _canClicker = false;
             _canShield = false;
             _canFreeze = false;
@@ -86,6 +86,12 @@ public class GameManager : MonoBehaviour
             _canDontGiveUp = false;
             _canZordTime = false;
             setWave();
+		}
+
+		if(_canFreeze){
+			buttons[0].interactable = false;
+		}else{
+			buttons[0].interactable = true;
 		}
 
 		bool test = true;

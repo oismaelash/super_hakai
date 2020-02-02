@@ -1504,7 +1504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 0}
-  nomeCena: 
+  nomeCena: Creditos
 --- !u!1 &1970478002
 GameObject:
   m_ObjectHideFlags: 0
