@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TGDStudio.PlayGameServices;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class GameManager : MonoBehaviour
     private bool damageBonusActive = false;
     private bool ClickerPowerOn = false;
 	public float countdown = 30;
-	public float[] countdownList = {30,42,56,68,80};
 	public GameObject dialog;
 	public GameObject shop;
 
@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        countdown = countdownList[PlayerPrefs.GetInt("wave", 1)-1];
         buildings = FindObjectsOfType<Building>();
 		timer = StartCoroutine(HakaiBuildingChoice());
 		kaijuPos = kaiju.position;
@@ -67,7 +66,7 @@ public class GameManager : MonoBehaviour
 
 		if (countdown <= 0){
 			StopAllCoroutines();
-			dialog.setActive(true);
+			dialog.SetActive(true);
 		}
 	}
 
@@ -172,6 +171,21 @@ public class GameManager : MonoBehaviour
 
 	public void setWave(){
 		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave", 0) + 1);
-		SetAmountWaves(PlayerPrefs.GetInt("wave"));
+		LeaderboardController.Instance.SetAmountWaves(PlayerPrefs.GetInt("wave"));
+		switch(PlayerPrefs.GetInt("wave")){
+		case 2:
+			countdown = 42;
+			break;
+		case 3:
+			countdown = 56;
+			break;
+		case 4:
+			countdown = 68;
+			break;
+		case 5:
+		default:
+			countdown = 80;
+			break;
+		}
 	}
 }

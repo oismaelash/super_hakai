@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Producer
   m_EditorClassIdentifier: 
   dialoger: Producer
-  photo: {fileID: 0}
+  photo: {fileID: 21300000, guid: 262d0a6b52df82a45a1dd42e5ee83241, type: 3}
   expressions: []
