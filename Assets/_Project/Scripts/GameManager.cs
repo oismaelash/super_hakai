@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,7 +24,9 @@ public class GameManager : MonoBehaviour
     private bool damageBonusActive = false;
     private bool ClickerPowerOn = false;
 	public float countdown = 30;
+	public float[] countdownList = {30,42,56,68,80};
 	public GameObject dialog;
+	public GameObject shop;
 
     public bool _canClicker = false;
     public bool _canShield = false;
@@ -39,7 +42,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		buildings = FindObjectsOfType<Building>();
+        countdown = countdownList[PlayerPrefs.GetInt("wave", 1)-1];
+        buildings = FindObjectsOfType<Building>();
 		timer = StartCoroutine(HakaiBuildingChoice());
 		kaijuPos = kaiju.position;
 		robotPos = robot.position;
@@ -57,8 +61,14 @@ public class GameManager : MonoBehaviour
                 Vector3.right * Mathf.Cos(count) / 2 +
                 Vector3.up * Mathf.Abs(Mathf.Sin(count)) / 2;
         }
+
 		if (!dialog.activeSelf)
 			countdown -= Time.deltaTime;
+
+		if (countdown <= 0){
+			StopAllCoroutines();
+			dialog.setActive(true);
+		}
 	}
 
 	public void spawnCoin(GameObject building)
@@ -100,7 +110,7 @@ public class GameManager : MonoBehaviour
         {
             _canFreeze = false;
             animate = false;
-            this.StopAllCoroutines();
+            StopAllCoroutines();
             StartCoroutine(FreezePowerDownRoutime());
         }
         
@@ -116,12 +126,21 @@ public class GameManager : MonoBehaviour
 
     public void MakeTheKOPowerupOn()
     {
-
+        if (_canMakeTheKO == true)
+        {
+            _canMakeTheKO = false;
+            countdown = 0;
+        }
     }
 
     public void DontGiveUpPowerupOn()
     {
-
+        if (_canDontGiveUp == true)
+        {
+            _canDontGiveUp = false;
+            countdown += 20;
+        }
+        
     }
 
     public void ZordTimePowerupOn()
@@ -141,7 +160,12 @@ public class GameManager : MonoBehaviour
         return r;
     }
     public float getDamage() {
+        
         float r = damageBonusActive ? bonusDamage : damage;
+        if (PlayerPrefs.GetInt("wave", 1) >= 3 && r == 8)
+        {
+            r = 10;
+        }
         return r;
 
     }
