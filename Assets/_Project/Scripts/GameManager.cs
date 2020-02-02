@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private bool damageBonusActive = false;
     private bool ClickerPowerOn = false;
 	public float countdown = 30;
+	public GameObject dialog;
 
     public bool _canClicker = false;
     public bool _canShield = false;
@@ -56,8 +57,8 @@ public class GameManager : MonoBehaviour
                 Vector3.right * Mathf.Cos(count) / 2 +
                 Vector3.up * Mathf.Abs(Mathf.Sin(count)) / 2;
         }
-
-		countdown -= Time.deltaTime;
+		if (!dialog.activeSelf)
+			countdown -= Time.deltaTime;
 	}
 
 	public void spawnCoin(GameObject building)
@@ -144,4 +145,9 @@ public class GameManager : MonoBehaviour
         return r;
 
     }
+
+	public void setWave(){
+		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave", 0) + 1);
+		SetAmountWaves(PlayerPrefs.GetInt("wave"));
+	}
 }

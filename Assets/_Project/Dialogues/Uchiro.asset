@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9b0fbe52b9f42a7b1ffc1f289d77f0, type: 3}
-  m_Name: RPGTalkConfig
+  m_Script: {fileID: 11500000, guid: d46921e71e9f04ccb83ec685be24573c, type: 3}
+  m_Name: Uchiro
   m_EditorClassIdentifier: 
-  logo: {fileID: 21300000, guid: ff9acc7e4a75e4593a9ef3a2451edf86, type: 3}
-  alreadyConfigured: 1
-  usingTMP: 1
+  dialoger: Mrs Ushiro
+  photo: {fileID: 21300000, guid: f6fbcad7025513b41932cb6ac85aae18, type: 3}
+  expressions: []
