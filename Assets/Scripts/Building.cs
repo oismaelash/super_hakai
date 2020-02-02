@@ -50,8 +50,6 @@ public class Building : MonoBehaviour
         {
 			gameObject.SetActive(false);
         }
-        Debug.Log(this.gameObject.name + " " + life);
-
     }
 
     private void OnMouseOver()

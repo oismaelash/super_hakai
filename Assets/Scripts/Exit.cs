@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Exit : MonoBehaviour
 {
-	public static bool exitAllowed = true;
-
 	void Start ()
 	{
 		if(this.GetComponent<Button> ())
@@ -22,8 +20,8 @@ public class Exit : MonoBehaviour
 
 	public void exit ()
 	{
-		if (SceneManager.GetActiveScene ().buildIndex != 1 && exitAllowed)
-			SceneManager.LoadScene (1);
+		if (SceneManager.GetActiveScene ().buildIndex != 0)
+			SceneManager.LoadScene (0);
 		else
 			Application.Quit ();
 	}

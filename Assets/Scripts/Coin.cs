@@ -13,7 +13,6 @@ public class Coin : MonoBehaviour
     
 	private Rigidbody2D rgdbd;
     private int value = 1;
-	private bool flying = false;
 	private AudioSource som;
 	private Coroutine timer;
     
@@ -30,8 +29,7 @@ public class Coin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (flying)
-			transform.position += Vector3.up * Time.deltaTime;
+		
     }
 
     private void AddMoney()
@@ -55,7 +53,6 @@ public class Coin : MonoBehaviour
 			GetComponent<SpriteRenderer>().color = Color.clear;
 			text.text = "+" + value;
 			text.gameObject.SetActive(true);
-			flying = true;
 			timer = StartCoroutine(Destroy(0.5f));
 			som.Play();
         }

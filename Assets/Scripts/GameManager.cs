@@ -9,8 +9,11 @@ public class GameManager : MonoBehaviour
 	private Vector3 position;
 	static public GameManager instance;
 	private Coroutine timer;
-	public GameObject Kaiju;
-	public GameObject Robot;
+	public Transform kaiju;
+	public Transform robot;
+	private Vector3 kaijuPos;
+	private Vector3 robotPos;
+	private float count = 0;
 
 	void Awake(){
 		instance = this;
@@ -21,9 +24,20 @@ public class GameManager : MonoBehaviour
     {
 		buildings = FindObjectsOfType<Building>();
 		timer = StartCoroutine(HakaiBuildingChoice());
+		kaijuPos = kaiju.position;
+		robotPos = robot.position;
 	}
 
-
+	void Update(){
+		count += Time.deltaTime*8;
+		if(count > Mathf.PI*2) count -= Mathf.PI*2;
+		kaiju.position = kaijuPos + 
+			Vector3.right *	-Mathf.Cos(count)/2 +
+			Vector3.up * Mathf.Abs(Mathf.Sin(count))/2;
+		robot.position = robotPos +
+			Vector3.right *	Mathf.Cos(count)/2 +
+			Vector3.up * Mathf.Abs(Mathf.Sin(count))/2;
+	}
 
 	public void spawnCoin(GameObject building)
 	{
