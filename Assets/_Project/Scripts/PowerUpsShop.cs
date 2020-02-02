@@ -5,10 +5,10 @@ using UnityEngine;
 public class PowerUpsShop : MonoBehaviour
 {
    
-    private int[] cost = { 15, 18, 20, 30, 20, 28 };
+    static private int[] cost = { 15, 18, 20, 30, 20, 28 };
 
 
-    public void buy(int powerupID)
+    static public void buy(int powerupID)
     {
         if (PlayerPrefs.GetInt("coin") > cost[powerupID])
         {
@@ -18,7 +18,6 @@ public class PowerUpsShop : MonoBehaviour
             PowerUpsControl puc = GameObject.Find("Camera").GetComponent<PowerUpsControl>();
             if (powerupID == 0)
             {
-
                 GameManager.instance._canClicker = true;
             }
             else if (powerupID == 1)

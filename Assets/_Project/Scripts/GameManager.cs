@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TGDStudio.PlayGameServices;
 
 public class GameManager : MonoBehaviour
@@ -25,8 +25,12 @@ public class GameManager : MonoBehaviour
     private bool damageBonusActive = false;
     private bool ClickerPowerOn = false;
 	public float countdown = 30;
+
 	public GameObject dialog;
 	public GameObject shop;
+	public Button shop0;
+	public Button shop1;
+	public Button shop2;
 
     public bool _canClicker = false;
     public bool _canShield = false;
@@ -172,18 +176,33 @@ public class GameManager : MonoBehaviour
 	public void setWave(){
 		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave", 0) + 1);
 		LeaderboardController.Instance.SetAmountWaves(PlayerPrefs.GetInt("wave"));
+		shop0.onClick.RemoveAllListeners ();
+		shop1.onClick.RemoveAllListeners ();
+		shop2.onClick.RemoveAllListeners ();
 		switch(PlayerPrefs.GetInt("wave")){
 		case 2:
+			shop0.onClick.AddListener (() => PowerUpsShop.buy (0));
+			shop1.onClick.AddListener (() => PowerUpsShop.buy (1));
+			shop2.onClick.AddListener (() => PowerUpsShop.buy (4));
 			countdown = 42;
 			break;
 		case 3:
+			shop0.onClick.AddListener (() => PowerUpsShop.buy (1));
+			shop1.onClick.AddListener (() => PowerUpsShop.buy (2));
+			shop2.onClick.AddListener (() => PowerUpsShop.buy (3));
 			countdown = 56;
 			break;
 		case 4:
+			shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
+			shop1.onClick.AddListener (() => PowerUpsShop.buy (5));
+			shop2.onClick.AddListener (() => PowerUpsShop.buy (0));
 			countdown = 68;
 			break;
 		case 5:
 		default:
+			shop0.onClick.AddListener (() => PowerUpsShop.buy (Random.Range(0,6)));
+			shop1.onClick.AddListener (() => PowerUpsShop.buy (Random.Range(0,6)));
+			shop2.onClick.AddListener (() => PowerUpsShop.buy (Random.Range(0,6)));
 			countdown = 80;
 			break;
 		}

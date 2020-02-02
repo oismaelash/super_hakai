@@ -54,7 +54,8 @@ public class Coin : MonoBehaviour
 			text.text = "+" + value;
 			text.gameObject.SetActive(true);
 			timer = StartCoroutine(Destroy(0.5f));
-			som.Play();
+			if(PlayerPrefs.GetInt ("Som", 1) == 1)
+				som.Play();
         }
     }
 

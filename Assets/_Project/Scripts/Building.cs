@@ -62,7 +62,8 @@ public class Building : MonoBehaviour
             if (life < 100f)
             {
 				life = Mathf.Min(life + GameManager.instance.getRepair(), maxLife);
-				som.Play();
+				if (PlayerPrefs.GetInt ("Som", 1) == 1)
+					som.Play();
 				if (clicks < 2 && (clicks == 0 || GameManager.instance.lastClicked == this))
 				{
 					GameManager.instance.lastClicked = this;
