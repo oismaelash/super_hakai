@@ -657,6 +657,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
+    1: RPGTalk_TMP
     7: RPGTalk_TMP
   platformArchitecture: {}
   scriptingBackend: {}

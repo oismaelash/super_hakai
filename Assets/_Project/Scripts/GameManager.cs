@@ -2,15 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TGDStudio.PlayGameServices;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+	#region SINGLETON PATTERN
+	public static GameManager _instance;
+	public static GameManager instance
+	{
+		get {
+			if (_instance == null)
+			{
+				_instance = GameObject.FindObjectOfType<GameManager>();
+
+				if (_instance == null)
+				{
+					GameObject container = new GameObject("Arceus");
+					_instance = container.AddComponent<GameManager>();
+				}
+			}
+
+			return _instance;
+		}
+	}
+	#endregion
+
 	public Building[] buildings;
 	public Building lastClicked;
 	private Vector3 position;
-	static public GameManager instance;
 	private Coroutine timer;
 	public Transform kaiju;
 	public Transform robot;
@@ -44,10 +63,6 @@ public class GameManager : MonoBehaviour
     public bool _canDontGiveUp = false;
 	public bool _canZordTime = false;
 	public Button[] buttons;
-
-    void Awake(){
-		instance = this;
-	}
 		
     // Start is called before the first frame update
     void Start()
@@ -207,7 +222,6 @@ public class GameManager : MonoBehaviour
 			building.life = building.maxLife;
 		}
 		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave") + 1);
-		LeaderboardController.Instance.SetAmountWaves(PlayerPrefs.GetInt("wave"));
 		shop0.onClick.RemoveAllListeners ();
 		shop1.onClick.RemoveAllListeners ();
 		shop2.onClick.RemoveAllListeners ();
