@@ -36,11 +36,11 @@ public class Coin : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("coin"))
         {
-            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + value);
+            PlayerPrefs.SetInt(Constants.COIN_NAME_PLAYERPREFS, PlayerPrefs.GetInt(Constants.COIN_NAME_PLAYERPREFS) + value);
         }
         else
         {
-			PlayerPrefs.SetInt("coin", value);
+			PlayerPrefs.SetInt(Constants.COIN_NAME_PLAYERPREFS, value);
         }
     }
 

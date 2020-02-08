@@ -15,6 +15,6 @@ public class ShowCoin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		text.text = "$ " + PlayerPrefs.GetInt("coin");
+		text.text = "$ " + PlayerPrefs.GetInt(Constants.COIN_NAME_PLAYERPREFS);
     }
 }

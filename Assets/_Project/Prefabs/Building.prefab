@@ -492,11 +492,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4528ae47e2082b045b4fd72dfc6ac03c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  repair: 12.5
-  damage: 8
+  maxLife: 100
+  life: 100
+  sound: {fileID: 7188636212655793904}
+  spriteRenderer: {fileID: 9152385162101386671}
+  lifeSlider: {fileID: 1427295487284065517}
   states:
   - {fileID: 21300000, guid: a15a98f21e85c654692e741020cf6587, type: 3}
-  - {fileID: 21300000, guid: a15a98f21e85c654692e741020cf6587, type: 3}
+  - {fileID: 21300000, guid: df957cd65a0e9cd40ab55ead99af020c, type: 3}
+  - {fileID: 21300000, guid: e1c76fd73a1836443b632c020c2a93e5, type: 3}
+  - {fileID: 21300000, guid: c52bbce933b77c4478bb08c379a5f03c, type: 3}
   - {fileID: 21300000, guid: a15a98f21e85c654692e741020cf6587, type: 3}
 --- !u!82 &7188636212655793904
 AudioSource:

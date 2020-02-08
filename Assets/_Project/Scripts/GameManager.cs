@@ -1,14 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	#region SINGLETON PATTERN
+	#region VARIABLES
+
 	public static GameManager _instance;
-	public static GameManager instance
+	public static GameManager Instance
 	{
 		get {
 			if (_instance == null)
@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
 			return _instance;
 		}
 	}
-	#endregion
 
 	public Building[] buildings;
 	public Building lastClicked;
@@ -56,6 +55,7 @@ public class GameManager : MonoBehaviour
     public GameObject Wave3FinishDialogue;
 
 
+    // Powerups
     public bool _canClicker = false;
     public bool _canShield = false;
     public bool _canFreeze = false;
@@ -63,18 +63,25 @@ public class GameManager : MonoBehaviour
     public bool _canDontGiveUp = false;
 	public bool _canZordTime = false;
 	public Button[] buttons;
-		
+
+    [Header("BUTTONS")]
+    [SerializeField] private Button continueGameplayButton;
+
+    #endregion
+
+
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("wave", 1);
-        PlayerPrefs.SetInt("coin", 0);
+        PlayerPrefs.SetInt(Constants.WAVE_NAME_PLAYERPREFS, 1);
+        PlayerPrefs.SetInt(Constants.COIN_NAME_PLAYERPREFS, 0);
 
         buildings = FindObjectsOfType<Building>();
-		timer = StartCoroutine(HakaiBuildingChoice());
 		kaijuPos = kaiju.position;
 		robotPos = robot.position;
-	}
+
+        continueGameplayButton.onClick.AddListener(StartGameplay);
+    }
 
 	void Update(){
         if (animate)
@@ -89,29 +96,32 @@ public class GameManager : MonoBehaviour
                 Vector3.up * Mathf.Abs(Mathf.Sin(count)) / 2;
         }
 
-		if (!dialog.activeSelf)
-			countdown -= Time.deltaTime;
-
 		if (countdown <= 0){
 			//StopAllCoroutines();
+
+            // Stop Powerups
             _canClicker = false;
             _canShield = false;
             _canFreeze = false;
             _canMakeTheKO = false;
             _canDontGiveUp = false;
             _canZordTime = false;
-            setWave();
+
+            SetNewWave();
 		}
 
-		if(_canFreeze){
-			buttons[0].interactable = false;
-		}else{
-			buttons[0].interactable = true;
-		}
+		//if(_canFreeze)
+        //{
+		//	buttons[0].interactable = false;
+		//}
+        //else
+        //{
+		//	buttons[0].interactable = true;
+		//}
 
 		bool test = true;
 		foreach (var building in buildings){
-			test = test & building.life < 1;
+			test = test & building.LifeCurrent < 1;
 		}
 		if (test){
 			SceneManager.LoadScene(0);
@@ -130,11 +140,13 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator HakaiBuildingChoice()
 	{
-		int buildingNumber = Random.Range( 0, buildings.Length);
-		buildings[buildingNumber].hakai();
-		yield return new WaitForSeconds(1);
+		int buildingNumber = Random.Range(0, buildings.Length);
+		buildings[buildingNumber].Hakai();
+		yield return new WaitForSeconds(1f);
 		timer = StartCoroutine(HakaiBuildingChoice());
     }
+
+    #region POWERUP_METHODS
 
     public void ClickerPowerupOn()
     {
@@ -148,8 +160,6 @@ public class GameManager : MonoBehaviour
         damageBonusActive = true;
 
     }
-
-
 
     public void FreezePowerupOn()
     {
@@ -165,7 +175,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator FreezePowerDownRoutime()
     {
-        
         yield return new WaitForSeconds(4f);
         timer = StartCoroutine(HakaiBuildingChoice());
         animate = true;
@@ -197,64 +206,99 @@ public class GameManager : MonoBehaviour
             _canZordTime = false;
             repairBonusActive = true;
         }
-       
     }
 
-    public float getRepair() {
+    #endregion
+
+    public float GetRepair() {
         float r = repairBonusActive ? bonusRepair : repair;
         r *= ClickerPowerOn ? 1.5f : 1; 
         repairBonusActive = false;
         return r;
     }
-    public float getDamage() {
-        
+    public float GetDamage() 
+    {
         float r = damageBonusActive ? bonusDamage : damage;
-        if (PlayerPrefs.GetInt("wave", 1) >= 3 && r == 8)
+        if (PlayerPrefs.GetInt(Constants.WAVE_NAME_PLAYERPREFS, 1) >= 3 && r == 8)
         {
             r = 10;
         }
         return r;
-
     }
 
-	public void setWave(){
-		foreach (var building in buildings){
-			building.life = building.maxLife;
-		}
-		PlayerPrefs.SetInt("wave", PlayerPrefs.GetInt("wave") + 1);
+	public void SetNewWave()
+    {
+        StopGameplay();
+
+        foreach (var building in buildings)
+            building.LifeCurrent = building.maxLife;
+
+        int waveCurrent = PlayerPrefs.GetInt(Constants.WAVE_NAME_PLAYERPREFS) + 1;
+        PlayerPrefs.SetInt(Constants.WAVE_NAME_PLAYERPREFS, waveCurrent);
+
 		shop0.onClick.RemoveAllListeners ();
 		shop1.onClick.RemoveAllListeners ();
 		shop2.onClick.RemoveAllListeners ();
-		switch(PlayerPrefs.GetInt("wave")){
-		case 2:
-            dialog.SetActive(true);
-            Wave1FinishDialogue.gameObject.SetActive(true);
-			shop0.onClick.AddListener (() => PowerUpsShop.buy (0));
-			shop1.onClick.AddListener (() => PowerUpsShop.buy (1));
-			shop2.onClick.AddListener (() => PowerUpsShop.buy (4));
-			countdown = 42;
-			break;
-		case 3:
-			shop0.onClick.AddListener (() => PowerUpsShop.buy (1));
-			shop1.onClick.AddListener (() => PowerUpsShop.buy (2));
-			shop2.onClick.AddListener (() => PowerUpsShop.buy (3));
-			countdown = 56;
-			break;
-		case 4:
-            dialog.SetActive(true);
-            Wave3FinishDialogue.gameObject.SetActive(true);
-            shop0.onClick.AddListener (() => PowerUpsShop.buy (4));
-			shop1.onClick.AddListener (() => PowerUpsShop.buy (5));
-			shop2.onClick.AddListener (() => PowerUpsShop.buy (0));
-			countdown = 68;
-			break;
-		case 5:
-		default:
-			shop0.onClick.AddListener (() => PowerUpsShop.buy (Random.Range(0,6)));
-			shop1.onClick.AddListener (() => PowerUpsShop.buy (Random.Range(0,6)));
-			shop2.onClick.AddListener (() => PowerUpsShop.buy (Random.Range(0,6)));
-			countdown = 80;
-			break;
+
+		switch(PlayerPrefs.GetInt(Constants.WAVE_NAME_PLAYERPREFS))
+        {
+		    case 2:
+                dialog.SetActive(true);
+                Wave1FinishDialogue.SetActive(true);
+			    shop0.onClick.AddListener (() => PowerUpsShop.Buy (0));
+			    shop1.onClick.AddListener (() => PowerUpsShop.Buy (1));
+			    shop2.onClick.AddListener (() => PowerUpsShop.Buy (4));
+			    countdown = 5; //42
+			    break;
+		    case 3:
+			    shop0.onClick.AddListener (() => PowerUpsShop.Buy (1));
+			    shop1.onClick.AddListener (() => PowerUpsShop.Buy (2));
+			    shop2.onClick.AddListener (() => PowerUpsShop.Buy (3));
+			    countdown = 5; //56
+                StartGameplay();
+			    break;
+		    case 4:
+                dialog.SetActive(true);
+                Wave3FinishDialogue.gameObject.SetActive(true);
+                shop0.onClick.AddListener (() => PowerUpsShop.Buy (4));
+			    shop1.onClick.AddListener (() => PowerUpsShop.Buy (5));
+			    shop2.onClick.AddListener (() => PowerUpsShop.Buy (0));
+			    countdown = 5; //68
+			    break;
+		    case 5:
+		    default:
+			    shop0.onClick.AddListener (() => PowerUpsShop.Buy (Random.Range(0,6)));
+			    shop1.onClick.AddListener (() => PowerUpsShop.Buy (Random.Range(0,6)));
+			    shop2.onClick.AddListener (() => PowerUpsShop.Buy (Random.Range(0,6)));
+			    countdown = 5; //80
+                Debug.Log("You win game");
+			    break;
 		}
 	}
+
+    #region AUXS_METHODS
+
+    public void CallDecrementCountdown(int timeForDecrement = 1)
+    {
+        InvokeRepeating("DecrementCountdown", timeForDecrement, timeForDecrement);
+    }
+
+    private void DecrementCountdown()
+    {
+        countdown--;
+    }
+
+    #endregion
+
+    private void StartGameplay()
+    {
+        CallDecrementCountdown();
+        timer = StartCoroutine(HakaiBuildingChoice());
+    }
+
+    private void StopGameplay()
+    {
+        CancelInvoke("DecrementCountdown");
+        StopCoroutine(timer);
+    }
 }

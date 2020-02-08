@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Collider2D))]
@@ -8,47 +6,61 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class Building : MonoBehaviour
 {
+    #region VARIABLES
 
-	public float maxLife = 100f;
-	public float life = 100f;
-    private int clicks = 0;
+    public float maxLife = 100f;
+	private float lifeCurrent = 100f;
+	public float LifeCurrent
+	{
+		get { return lifeCurrent; }
+		set
+		{
+			lifeCurrent = value;
+			lifeSlider.value = lifeCurrent / maxLife;
+			UpdateStatusViewBuilding();
+		}
+	}
+	private int clicks = 0;
 	private Vector2 position;
-	private AudioSource som;
-	private SpriteRenderer sp;
-	private Slider bar;
+	[SerializeField] private AudioSource sound;
+	[SerializeField] private SpriteRenderer spriteRenderer;
+	[SerializeField] private Slider lifeSlider;
 	public Sprite[] states;
 
+    #endregion
 
-	// Start is called before the first frame update
-	void Start()
+	private void UpdateStatusViewBuilding()
 	{
-		bar = GetComponentInChildren<Slider>();
-		sp  = GetComponentInChildren<SpriteRenderer>();
-		som = GetComponentInChildren<AudioSource>();
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-		bar.value = life/maxLife;
-		if (life < 1) {
-			sp.sprite = states[4];
-		} else if (life < 30) {
-			sp.sprite = states[3];
-		} else if (life < 60) {
-			sp.sprite = states[2];
-		} else if (life < 99) {
-			sp.sprite = states[1];
-		} else{
-			sp.sprite = states[0];
+		if (LifeCurrent < 1) 
+		{
+			spriteRenderer.sprite = states[4];
+		} 
+		else if (LifeCurrent < 30) 
+		{
+			spriteRenderer.sprite = states[3];
+		} 
+		else if (LifeCurrent < 60) 
+		{
+			spriteRenderer.sprite = states[2];
+		} 
+		else if (LifeCurrent < 99) 
+		{
+			spriteRenderer.sprite = states[1];
+		} 
+		else
+		{
+			spriteRenderer.sprite = states[0];
 		}
 	}
 
-    public void hakai()
+	/// <summary>
+	/// The damage hit
+	/// </summary>
+    public void Hakai()
     {
-        
-		life -= GameManager.instance.getDamage();
-        if (life <= 0f)
+		LifeCurrent -= GameManager.Instance.GetDamage();
+
+        if (LifeCurrent <= 0f)
         {
 			gameObject.SetActive(false);
         }
@@ -56,24 +68,25 @@ public class Building : MonoBehaviour
 
     private void OnMouseOver()
     {
+		Debug.Log("OnMouseOver");
         if (Input.GetMouseButtonDown(0))
         {
-
-            if (life < 100f)
+			Debug.Log("GetMouseButtonDown");
+			if (LifeCurrent < 100f)
             {
-				life = Mathf.Min(life + GameManager.instance.getRepair(), maxLife);
+				LifeCurrent = Mathf.Min(LifeCurrent + GameManager.Instance.GetRepair(), maxLife);
 				if (PlayerPrefs.GetInt ("Som", 1) == 1)
-					som.Play();
-				if (clicks < 2 && (clicks == 0 || GameManager.instance.lastClicked == this))
+					sound.Play();
+				if (clicks < 2 && (clicks == 0 || GameManager.Instance.lastClicked == this))
 				{
-					GameManager.instance.lastClicked = this;
+					GameManager.Instance.lastClicked = this;
 					clicks++;
-				}	else if (GameManager.instance.lastClicked != this)
+				}	else if (GameManager.Instance.lastClicked != this)
 				{
 					clicks = 0;
 				}	else
 				{
-					GameManager.instance.spawnCoin(this.gameObject);
+					GameManager.Instance.spawnCoin(this.gameObject);
 					clicks = 0;
 				}
             }

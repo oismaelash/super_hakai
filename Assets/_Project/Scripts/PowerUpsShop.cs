@@ -1,49 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PowerUpsShop : MonoBehaviour
 {
-   
-    static private int[] cost = { 15, 18, 20, 30, 20, 28 };
+    private static readonly int[] costPowerUp = { 15, 18, 20, 30, 20, 28 };
 
-
-    static public void buy(int powerupID)
+    public static void Buy(int powerupID)
     {
-        if (PlayerPrefs.GetInt("coin") < cost[powerupID])
+        if (costPowerUp[powerupID] >= PlayerPrefs.GetInt(Constants.COIN_NAME_PLAYERPREFS))
         {
-
-        }
-        else  {
-            PowerUpsControl puc = GameObject.Find("Camera").GetComponent<PowerUpsControl>();
             if (powerupID == 0)
             {
-                GameManager.instance._canClicker = true;
-                
+                GameManager.Instance._canClicker = true;
             }
             else if (powerupID == 1)
             {
-                GameManager.instance._canShield = true;
+                GameManager.Instance._canShield = true;
             }
             else if (powerupID == 2)
             {
-                GameManager.instance._canFreeze = true;
+                GameManager.Instance._canFreeze = true;
             }
             else if (powerupID == 3)
             {
-                GameManager.instance._canMakeTheKO = true;
+                GameManager.Instance._canMakeTheKO = true;
             }
             else if (powerupID == 4)
             {
-                GameManager.instance._canDontGiveUp = true;
+                GameManager.Instance._canDontGiveUp = true;
             }
             else if (powerupID == 5)
             {
-                GameManager.instance._canZordTime = true;
+                GameManager.Instance._canZordTime = true;
             }
 
-            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - cost[powerupID]);
+            int newValueCoins = PlayerPrefs.GetInt(Constants.COIN_NAME_PLAYERPREFS) - costPowerUp[powerupID];
+            PlayerPrefs.SetInt(Constants.COIN_NAME_PLAYERPREFS, newValueCoins);
         }
-        
     } 
 }

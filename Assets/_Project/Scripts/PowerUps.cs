@@ -8,19 +8,19 @@ public class PowerUps : MonoBehaviour
     {
         if (powerupID == 0)
         {
-            GameManager.instance.FreezePowerupOn();
+            GameManager.Instance.FreezePowerupOn();
         }
         else if (powerupID == 1)
         {
-            GameManager.instance.MakeTheKOPowerupOn();
+            GameManager.Instance.MakeTheKOPowerupOn();
         }
         else if (powerupID == 2)
         {
-            GameManager.instance.DontGiveUpPowerupOn();
+            GameManager.Instance.DontGiveUpPowerupOn();
         }
         else if (powerupID == 3)
         {
-            GameManager.instance.ZordTimePowerupOn();
+            GameManager.Instance.ZordTimePowerupOn();
         }
     }
 }
